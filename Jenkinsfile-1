@@ -17,15 +17,15 @@ pipeline {
                 sh 'mvn clean package' 
             } 
         } 
-        stage('Copying war file') { 
+        stage('Copying jar file') { 
             steps { 
-                echo 'Copying war file..' 
-                sh 'mv target/*.war .' 
+                echo 'Copying jar file..' 
+                sh 'mv target/*.jar .' 
             } 
         } 
         stage('build image') { 
           steps { 
-            sh 'docker build -t uaxivbru/devops-web-project1:v1 --label devops-web-project-server .' 
+            sh 'docker build -t uaxivbru/campaign-demo:v1 --label campaign-demo-server .' 
           } 
         } 
         stage('Docker Hub Login') { 
@@ -35,7 +35,7 @@ pipeline {
         } 
         stage('Push to Docker Hub') { 
           steps { 
-            sh 'docker push uaxivbru/devops-web-project1:v1' 
+            sh 'docker push uaxivbru/campaign-demo:v1' 
           } 
         } 
     } 
@@ -44,4 +44,4 @@ pipeline {
             sh 'docker logout' 
         } 
     } 
-  }
+  } 
