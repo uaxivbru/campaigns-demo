@@ -12,12 +12,21 @@ pipeline {
         PATH = "${JAVA_HOME}/bin:${env.PATH}"
     }
     stages { 
-        stage('Packaging') { 
-            steps { 
-                echo 'Packaging..' 
-                sh 'mvn clean package' 
-            } 
-        } 
+        stage('Packaging') {
+            steps {
+                echo 'Packaging..'
+                sh '''
+                export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+                export PATH=$JAVA_HOME/bin:$PATH
+                
+                echo "=== VERIFICANDO LA VERSIÓN DE MAVEN Y JAVA ==="
+                mvn -version
+                
+                echo "=== INICIANDO COMPILACIÓN ==="
+                mvn clean package
+                '''
+            }
+        }
         stage('Copying jar file') { 
             steps { 
                 echo 'Copying war file..' 
